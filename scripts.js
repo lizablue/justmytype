@@ -2,7 +2,8 @@ $(document).ready(function () {
     // hide uppercase keyboard when page loads
     $('#keyboard-upper-container').hide();
 
-    // determine if shift key was pressed
+    // toggle keyboards if shift key is pressed
+    // show upper keyboard
     $(document).on({
         keydown: function(e) {
           if (e.originalEvent.key === "Shift") {
@@ -11,6 +12,7 @@ $(document).ready(function () {
           }
         }
     });
+    //show lower keyboard
     $(document).on({
         keyup: function(e) {
             if (e.originalEvent.key === "Shift") {
@@ -19,4 +21,22 @@ $(document).ready(function () {
             }
         }
     })
+    
+    // style key on keypress
+    // let key = $('#65')
+
+    $(document).on({
+      keydown: function(e) {
+        if (e.originalEvent.key === 'a') {
+          $('#97').css('background-color', 'blue');
+        }
+      }
+  });
+  $(document).on({
+      keyup: function(e) {
+          if (e.originalEvent.key === 'a') {
+            $('#97').css('background-color', '');
+          }
+      }
+  })
 });
