@@ -1,42 +1,60 @@
+
 $(document).ready(function () {
-    // hide uppercase keyboard when page loads
-    $('#keyboard-upper-container').hide();
+  // hide uppercase keyboard when page loads
+  $('#keyboard-upper-container').hide();
 
-    // toggle keyboards if shift key is pressed
-    // show upper keyboard
-    $(document).on({
-        keydown: function(e) {
-          if (e.originalEvent.key === "Shift") {
-            $('#keyboard-upper-container').toggle();
-            $('#keyboard-lower-container').toggle();
-          }
-        }
-    });
-    //show lower keyboard
-    $(document).on({
-        keyup: function(e) {
-            if (e.originalEvent.key === "Shift") {
-              $('#keyboard-upper-container').toggle();
-              $('#keyboard-lower-container').toggle();
-            }
-        }
-    })
-    
-    // style key on keypress
-    // let key = $('#65')
-
-    $(document).on({
-      keydown: function(e) {
-        if (e.originalEvent.key === 'a') {
-          $('#97').css('background-color', 'blue');
-        }
+  // toggle keyboards if shift key is pressed
+  // show upper keyboard
+  $(document).on({
+    keydown: function (e) {
+      if (e.originalEvent.key === "Shift") {
+        $('#keyboard-upper-container').toggle();
+        $('#keyboard-lower-container').toggle();
       }
+    }
+  });
+  //show lower keyboard
+  $(document).on({
+    keyup: function (e) {
+      if (e.originalEvent.key === "Shift") {
+        $('#keyboard-upper-container').toggle();
+        $('#keyboard-lower-container').toggle();
+      }
+    }
+  })
+
+  // key style
+  // let style = $('span').attr('background-color: yellow');
+
+  // style key on keypress
+  $(document).on({
+    keypress: function (e) {
+      if (e.originalEvent.key === 'a') {
+        $('#97').attr('style', 'background-color: lightblue');
+      }
+    }
   });
   $(document).on({
-      keyup: function(e) {
-          if (e.originalEvent.key === 'a') {
-            $('#97').css('background-color', '');
-          }
+    keyup: function (e) {
+      if (e.originalEvent.key === 'a') {
+        $('#97').attr('style', 'background-color:');
       }
+    }
   })
+
+  // sentence array
+  let sentences = ['ten ate neite ate nee enet ite ate inet ent eate',
+    'Too ato too nOt enot one totA not anot tOO aNot',
+    'oat itain oat tain nate eate tea anne inant nean',
+    'itant eate anot eat nato inate eat anot tain eat',
+    'nee ene ate ite tent tiet ent ine ene ete ene ate'];
+
+  // display sentences one at a time
+  function displayText() {
+    let x = 0;
+    $('#sentence').text(sentences[x]);
+    
+    x++;
+  };
+  displayText();
 });
