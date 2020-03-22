@@ -31,6 +31,7 @@ $(document).ready(function () {
     keypress: function (e) {
       if (e.originalEvent.key === 'a') {
         $('#97').attr('style', 'background-color: lightblue');
+        $('#yellow-block').animate({left: '7px'});
       }
     }
   });
@@ -50,11 +51,20 @@ $(document).ready(function () {
     'nee ene ate ite tent tiet ent ine ene ete ene ate'];
 
   // display sentences one at a time
-  function displayText() {
-    let x = 0;
-    $('#sentence').text(sentences[x]);
-    
-    x++;
+  function displaySent() {
+    let i = 0;
+    let displayText = sentences[i];
+    $('#sentence').text(displayText);
+    function displayChar() {
+      let x = 0
+      $('#target-letter').text(displayText.charAt(x));
+      x++;
+    }
+    displayChar();
+    i++;
   };
-  displayText();
+  displaySent();
+
+
+
 });
