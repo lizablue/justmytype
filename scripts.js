@@ -1,37 +1,101 @@
 
-$(document).ready(function () {
-  // hide uppercase keyboard when page loads
-  $('#keyboard-upper-container').hide();
+// hide uppercase keyboard when page loads
+$('#keyboard-upper-container').hide();
 
-  // toggle keyboards if shift key is pressed
-  // show upper keyboard
-  $(document).on({
-    keydown: function (e) {
-      if (e.originalEvent.key === "Shift") {
-        $('#keyboard-upper-container').toggle();
-        $('#keyboard-lower-container').toggle();
-      }
-    }
-  });
-  //show lower keyboard
-  $(document).on({
-    keyup: function (e) {
-      if (e.originalEvent.key === "Shift") {
-        $('#keyboard-upper-container').toggle();
-        $('#keyboard-lower-container').toggle();
-      }
-    }
-  })
+//timer
+let sec = 0;
+function pad(val) { return val > 9 ? val : "0" + val; }
+setInterval(function () {
+  $("#seconds").html(pad(++sec % 60));
+  $("#minutes").html(pad(parseInt(sec / 60, 10)));
+}, 1000);
 
-  // style key on keypress
-  $(document).keydown(function (e) {
-    let keyPressed = event.keyCode // letter/character pressed  
-    // let asciiVal = event.which; // ascii value or keyPressed
-    // let key = $(this).attr('id');
-    // let keyId = $(e.currentTarget.activeElement).attr('id');
-    // let keyId = e.id
-    console.log(keyPressed);
-  });
+// toggle keyboards if shift key is pressed
+// show upper keyboard
+$(document).on({
+  keydown: function (e) {
+    if (e.originalEvent.key === "Shift") {
+      $('#keyboard-upper-container').toggle();
+      $('#keyboard-lower-container').toggle();
+    }
+  }
+});
+//show lower keyboard
+$(document).on({
+  keyup: function (e) {
+    if (e.originalEvent.key === "Shift") {
+      $('#keyboard-upper-container').toggle();
+      $('#keyboard-lower-container').toggle();
+    }
+  }
+})
+
+// style key on keypress
+$(document).keydown(function (e) {
+  let keyPressed = event.key // letter/character pressed
+
+  // let asciiVal = event.which; // ascii value or keyPressed
+  // let key = $(this).attr('id');
+  // let keyId = $(e.currentTarget.activeElement).attr('id');
+  // let keyId = e.id
+  console.log(keyPressed);
+});
+
+// sentence array
+let sentences = ['ten ate neite ate nee enet ite ate inet ent eate',
+  'Too ato too nOt enot one totA not anot tOO aNot',
+  'oat itain oat tain nate eate tea anne inant nean',
+  'itant eate anot eat nato inate eat anot tain eat',
+  'nee ene ate ite tent tiet ent ine ene ete ene ate'];
+
+function resetGame() {
+  displaySent();
+
+}
+
+// reset display with new sentence
+function resetDisp() {
+  $('#feedback') = null
+  // $('#yellow-block') = 
+}
+
+// display next character in sequence
+let x = 0
+function displayChar() {
+  $('#target-letter').text(displayText.charAt(x));
+}
+
+
+let i = 0;
+let displayText = sentences[i];
+// display sentences one at a time
+function displaySent() {
+  $('#sentence').text(displayText);
+
+  // display target letter in current sentence
+  if (x < displayText.length) {
+    displayChar();
+    x++;
+  } else {
+    i++;
+    resetDisp();
+  }
+};
+
+let numberOfMistakes
+let minutes
+let score = 54 / minutes - 2 * numberOfMistakes
+
+// game results
+if (i < sentences.length) {
+  displaySent();
+} else {
+  $('sentence').text('You completed all the sentences! Your score is ' + score + ' words per minute.');
+  $('#target-letter').append('<button> Play Again?</button>');
+}
+
+  // keyPressed.charCodeAt()
+
   // let ascii = {
   //   "31": "",      "32": " ",     "33": "!",     "34": "\"",    "35": "#",    
   //   "36": "$",     "37": "%",     "38": "&",     "39": "'",     "40": "(",    
@@ -54,54 +118,3 @@ $(document).ready(function () {
   //   "121": "y",    "122": "z",    "123": "{",    "124": "|",    "125": "}",    
   //   "126": "~",    "127": ""
   //   };
-
-  // sentence array
-  let sentences = ['ten ate neite ate nee enet ite ate inet ent eate',
-    'Too ato too nOt enot one totA not anot tOO aNot',
-    'oat itain oat tain nate eate tea anne inant nean',
-    'itant eate anot eat nato inate eat anot tain eat',
-    'nee ene ate ite tent tiet ent ine ene ete ene ate'];
-
-  function resetGame() {
-    displaySent();
-    
-  }
-  
-    // reset display with new sentence
-  function resetDisp() {
-    $('#feedback') = null
-    // $('#yellow-block') = 
-  }
-
-  // display next character in sequence
-  let x = 0
-  function displayChar() {
-    $('#target-letter').text(displayText.charAt(x));
-  }
-
-  // display sentences one at a time
-  let i = 0;
-  let displayText = sentences[i];
-  function displaySent() {
-    $('#sentence').text(displayText);
-
-    if (x < displayText.length) {
-      x++;
-      displayChar();
-    } else {
-      i++;
-      resetDisp();
-    }
-  };
-
-  if (i < sentences.length) {
-    displaySent();
-  } else {
-    $('sentence').text('You completed all the sentences! Your score is ' + words + ' per minute.');
-    $('#target-letter').append('<button> Play Again?</button>');
-  }
-  
-  // keyPressed.charCodeAt()
-
-
-});
