@@ -3,12 +3,12 @@
 $('#keyboard-upper-container').hide();
 
 //timer
-let sec = 0;
-function pad(val) { return val > 9 ? val : "0" + val; }
-setInterval(function () {
-  $("#seconds").html(pad(++sec % 60));
-  $("#minutes").html(pad(parseInt(sec / 60, 10)));
-}, 1000);
+// let sec = 0;
+// function pad(val) { return val > 9 ? val : "0" + val; }
+// setInterval(function () {
+//   $("#seconds").html(pad(++sec % 60));
+//   $("#minutes").html(pad(parseInt(sec / 60, 10)));
+// }, 1000);
 
 // toggle keyboards if shift key is pressed
 // show upper keyboard
@@ -83,7 +83,7 @@ function displaySent() {
 };
 
 let numberOfMistakes
-let minutes
+let minutes = $('#minutes').val()*60
 let score = 54 / minutes - 2 * numberOfMistakes
 
 // game results
