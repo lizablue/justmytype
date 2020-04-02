@@ -40,3 +40,14 @@
 .glyphicon-remove {
   color : #CD2626
 }
+
+.highlight {
+  background-color: yellow;
+}
+
+button {
+  margin: 25px;
+  padding: 10px;
+  background-color: lightskyblue;
+  font-size: 30px;
+}
