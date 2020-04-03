@@ -10,9 +10,14 @@ let sentenceIndex = 0;
 let currentSentence = sentences[sentenceIndex];
 let currentLetter = currentSentence[letterIndex];
 
+// display sentences one at a time
+function displaySent() {
+  $('#sentence').append(currentSentence);
+};
+
 // display next character in sequence
 function displayChar() {
-  $('#target-letter').text(displayText.charAt(currentLetter));
+  $('#target-letter').append(currentLetter.charAt(letterIndex));
 }
 
 // hide uppercase keyboard when page loads
@@ -46,49 +51,48 @@ $(document).keypress(function (e) {
   $('#' + keyPressed).addClass('highlight') // highlight keys on keypress
   if (currentSentence.charCodeAt(letterIndex) === keyPressed) {
     console.log('correct');
+    ('#feedback').append('<span class="glyphicon glyphicon-ok"></span>');
   } else {
     console.log('incorrect');
+    ('#feedback').append('<span class="glyphicon glyphicon-remove"></span>');
   }
   // display target letter in current sentence
-  if (currentLetter < currentSentence.length) {
-    letterIndex++;
+  if (letterIndex < currentSentence.length) {
     displayChar();
+    letterIndex++;
   } else {
     sentenceIndex++;
     resetDisp();
   };
 });
 
-// reset game to beginning
-function resetGame() {
-  displaySent();
-
-}
-
 // reset display with new sentence
 function resetDisp() {
   $('#feedback') = null
+  let letterIndex = 0;
   // $('#yellow-block') = 
-}
-
-// display sentences one at a time
-function displaySent() {
-  $('#sentence').text(currentSentence);
 };
-
 
 let numberOfMistakes
 let minutes = $('#minutes').val() * 60
 let score = 54 / minutes - 2 * numberOfMistakes
 
 // game results
-if (currentSentence < sentences.length) {
+if (sentenceIndex < sentences.length) {
   displaySent();
-} else {
+}
+else {
   $('#sentence').text('Sentences complete! You typed ' + score + ' words per minute.');
   $('#target-letter').append('<button> Play Again?</button>');
 }
 
+// reset game to beginning
+function resetGame() {
+  let letterIndex = 0;
+  let sentenceIndex = 0;
+  displaySent();
+  resetDisp();
+};
 
   // keyPressed.charCodeAt()
 
