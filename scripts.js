@@ -20,6 +20,24 @@ function displayChar() {
   $('#target-letter').append(currentLetter.charAt(letterIndex));
 }
 
+// keep track of letterIndex and sentenceIndex
+function indexCounter() {
+  if (letterIndex > currentSentence.length) {
+    sentenceIndex++;
+    resetDisp();
+  } else {
+    letterIndex++;
+    displayChar();
+  };
+}
+
+// reset display with new sentence
+function resetDisp() {
+  $('#feedback') = null
+  let letterIndex = 0;
+  // $('#yellow-block') = 
+};
+
 // hide uppercase keyboard when page loads
 $('#keyboard-upper-container').hide();
 
@@ -42,7 +60,6 @@ $(document).on({
     }
     // remove key highlight
     $('.highlight').removeClass('highlight');
-
   }
 })
 
@@ -51,27 +68,15 @@ $(document).keypress(function (e) {
   $('#' + keyPressed).addClass('highlight') // highlight keys on keypress
   if (currentSentence.charCodeAt(letterIndex) === keyPressed) {
     console.log('correct');
-    ('#feedback').append('<span class="glyphicon glyphicon-ok"></span>');
+    $('#feedback').append('<p class="glyphicon glyphicon-ok"></p>');
   } else {
     console.log('incorrect');
-    ('#feedback').append('<span class="glyphicon glyphicon-remove"></span>');
+    $('#feedback').append('<p class="glyphicon glyphicon-remove"></p>');
   }
-  // display target letter in current sentence
-  if (letterIndex < currentSentence.length) {
-    displayChar();
-    letterIndex++;
-  } else {
-    sentenceIndex++;
-    resetDisp();
-  };
+  indexCounter();
 });
 
-// reset display with new sentence
-function resetDisp() {
-  $('#feedback') = null
-  let letterIndex = 0;
-  // $('#yellow-block') = 
-};
+
 
 let numberOfMistakes
 let minutes = $('#minutes').val() * 60
@@ -91,6 +96,7 @@ function resetGame() {
   let letterIndex = 0;
   let sentenceIndex = 0;
   displaySent();
+  displayChar();
   resetDisp();
 };
 
