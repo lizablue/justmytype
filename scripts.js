@@ -12,30 +12,34 @@ let currentLetter = currentSentence[letterIndex];
 
 // display sentences one at a time
 function displaySent() {
+  $('#sentence').empty();
   $('#sentence').append(currentSentence);
 };
 
 // display next character in sequence
 function displayChar() {
-  $('#target-letter').append(currentLetter.charAt(letterIndex));
-}
-
-// keep track of letterIndex and sentenceIndex
-function indexCounter() {
-  if (letterIndex > currentSentence.length) {
-    sentenceIndex++;
-    resetDisp();
-  } else {
-    letterIndex++;
-    displayChar();
-  };
-}
+  $('#target-letter').empty();
+  $('#target-letter').append(currentLetter);
+  
+};
 
 // reset display with new sentence
 function resetDisp() {
-  $('#feedback') = null
-  let letterIndex = 0;
-  // $('#yellow-block') = 
+  $('#feedback').empty();
+  letterIndex = 0;
+  $('#yellow-block').removeAttr('style');
+};
+
+// keep track of letterIndex and sentenceIndex
+function indexCounter() {
+  letterIndex++;
+  if (currentSentence.length < letterIndex) {
+    sentenceIndex++;
+    displaySent();
+    resetDisp();
+  } else {
+    displayChar();
+  };
 };
 
 // hide uppercase keyboard when page loads
@@ -66,17 +70,23 @@ $(document).on({
 $(document).keypress(function (e) {
   let keyPressed = e.keyCode // letter/character pressed
   $('#' + keyPressed).addClass('highlight') // highlight keys on keypress
+  // give feedback on key that was pressed
   if (currentSentence.charCodeAt(letterIndex) === keyPressed) {
-    console.log('correct');
     $('#feedback').append('<p class="glyphicon glyphicon-ok"></p>');
   } else {
-    console.log('incorrect');
     $('#feedback').append('<p class="glyphicon glyphicon-remove"></p>');
   }
+  $('#yellow-block').animate({
+    marginLeft: '+=18px'
+  },100);
+  console.log('li = ' + letterIndex);
+  console.log('si = ' + sentenceIndex);
+  console.log('cl = ' + currentLetter);
+  console.log('cs = ' + currentSentence);
+  // move to the next letter or sentence
   indexCounter();
+  // displayChar();
 });
-
-
 
 let numberOfMistakes
 let minutes = $('#minutes').val() * 60
@@ -93,8 +103,8 @@ else {
 
 // reset game to beginning
 function resetGame() {
-  let letterIndex = 0;
-  let sentenceIndex = 0;
+  letterIndex = 0;
+  sentenceIndex = 0;
   displaySent();
   displayChar();
   resetDisp();
