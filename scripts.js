@@ -5,10 +5,16 @@ let sentences = ['ten ate neite ate nee enet ite ate inet ent eate',
   'itant eate anot eat nato inate eat anot tain eat',
   'nee ene ate ite tent tiet ent ine ene ete ene ate'];
 
+// typing variables
 let letterIndex = 0;
 let sentenceIndex = 0;
 let currentSentence = sentences[sentenceIndex];
 let currentLetter = currentSentence[letterIndex];
+
+//score variables
+let numberOfMistakes
+let minutes = $('#minutes').val() * 60
+let score = 54 / minutes - 2 * numberOfMistakes
 
 // display sentences one at a time
 function displaySent() {
@@ -20,26 +26,37 @@ function displaySent() {
 function displayChar() {
   $('#target-letter').empty();
   $('#target-letter').append(currentLetter);
-  
+
 };
 
 // reset display with new sentence
 function resetDisp() {
   $('#feedback').empty();
   letterIndex = 0;
-  $('#yellow-block').removeAttr('style');
 };
 
 // keep track of letterIndex and sentenceIndex
 function indexCounter() {
   letterIndex++;
+  currentLetter = currentSentence[letterIndex];
   if (currentSentence.length < letterIndex) {
     sentenceIndex++;
+    currentSentence = sentences[sentenceIndex];
+    $('#yellow-block').removeAttr('style');
     displaySent();
     resetDisp();
   } else {
     displayChar();
   };
+};
+
+// reset game to beginning
+function resetGame() {
+  letterIndex = 0;
+  sentenceIndex = 0;
+  displaySent();
+  displayChar();
+  resetDisp();
 };
 
 // hide uppercase keyboard when page loads
@@ -76,41 +93,21 @@ $(document).keypress(function (e) {
   } else {
     $('#feedback').append('<p class="glyphicon glyphicon-remove"></p>');
   }
+  // move yellow block to highlight current letter
   $('#yellow-block').animate({
     marginLeft: '+=18px'
-  },100);
-  console.log('li = ' + letterIndex);
-  console.log('si = ' + sentenceIndex);
-  console.log('cl = ' + currentLetter);
-  console.log('cs = ' + currentSentence);
+  }, 100);
   // move to the next letter or sentence
   indexCounter();
-  // displayChar();
 });
 
-let numberOfMistakes
-let minutes = $('#minutes').val() * 60
-let score = 54 / minutes - 2 * numberOfMistakes
-
-// game results
 if (sentenceIndex < sentences.length) {
   displaySent();
-}
-else {
+  displayChar();
+} else {
   $('#sentence').text('Sentences complete! You typed ' + score + ' words per minute.');
   $('#target-letter').append('<button> Play Again?</button>');
 }
-
-// reset game to beginning
-function resetGame() {
-  letterIndex = 0;
-  sentenceIndex = 0;
-  displaySent();
-  displayChar();
-  resetDisp();
-};
-
-  // keyPressed.charCodeAt()
 
   //timer
 // let sec = 0;
