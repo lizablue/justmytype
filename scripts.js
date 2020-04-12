@@ -39,15 +39,15 @@ function resetDisp() {
 function indexCounter() {
   letterIndex++;
   currentLetter = currentSentence[letterIndex];
-  if (currentSentence.length < letterIndex) {
+  if (currentSentence.length <= letterIndex) {
     sentenceIndex++;
     currentSentence = sentences[sentenceIndex];
     $('#yellow-block').removeAttr('style');
-    displaySent();
     resetDisp();
   } else {
     displayChar();
-  };
+    displaySent();
+  }
 };
 
 // reset game to beginning
@@ -84,29 +84,33 @@ $(document).on({
   }
 })
 
-$(document).keypress(function (e) {
-  let keyPressed = e.keyCode // letter/character pressed
-  $('#' + keyPressed).addClass('highlight') // highlight keys on keypress
-  // give feedback on key that was pressed
-  if (currentSentence.charCodeAt(letterIndex) === keyPressed) {
-    $('#feedback').append('<p class="glyphicon glyphicon-ok"></p>');
-  } else {
-    $('#feedback').append('<p class="glyphicon glyphicon-remove"></p>');
-  }
-  // move yellow block to highlight current letter
-  $('#yellow-block').animate({
-    marginLeft: '+=18px'
-  }, 100);
-  // move to the next letter or sentence
-  indexCounter();
-});
-
 if (sentenceIndex < sentences.length) {
   displaySent();
   displayChar();
+  $(document).keypress(function (e) {
+    let keyPressed = e.keyCode // letter/character pressed
+    $('#' + keyPressed).addClass('highlight') // highlight keys on keypress
+    // give feedback on key that was pressed
+    if (currentSentence.charCodeAt(letterIndex) === keyPressed) {
+      $('#feedback').append('<p class="glyphicon glyphicon-ok"></p>');
+    } else {
+      $('#feedback').append('<p class="glyphicon glyphicon-remove"></p>');
+    }
+    // move yellow block to highlight current letter
+    $('#yellow-block').animate({
+      marginLeft: '+=17px'
+    }, 100);
+    // move to the next letter or sentence
+    indexCounter();
+  });
 } else {
   $('#sentence').text('Sentences complete! You typed ' + score + ' words per minute.');
   $('#target-letter').append('<button> Play Again?</button>');
+  $('#yellow-block').empty();
+}
+
+$('button').click(function() {
+  resetGame();
 }
 
   //timer
