@@ -33,20 +33,23 @@ function displayChar() {
 function resetDisp() {
   $('#feedback').empty();
   letterIndex = 0;
+  displayChar();
+  displaySent();
 };
 
 // keep track of letterIndex and sentenceIndex
 function indexCounter() {
   letterIndex++;
   currentLetter = currentSentence[letterIndex];
-  if (currentSentence.length <= letterIndex) {
+  displayChar();
+  displaySent();
+  if (currentSentence.length === letterIndex) {
+    letterIndex++;
+    currentLetter = currentSentence[letterIndex];
     sentenceIndex++;
     currentSentence = sentences[sentenceIndex];
-    $('#yellow-block').removeAttr('style');
+    // $('#yellow-block').css('margin-left', 0);
     resetDisp();
-  } else {
-    displayChar();
-    displaySent();
   }
 };
 
@@ -72,6 +75,7 @@ $(document).on({
     }
   }
 });
+
 //show lower keyboard
 $(document).on({
   keyup: function (e) {
@@ -96,10 +100,14 @@ if (sentenceIndex < sentences.length) {
     } else {
       $('#feedback').append('<p class="glyphicon glyphicon-remove"></p>');
     }
-    // move yellow block to highlight current letter
-    $('#yellow-block').animate({
-      marginLeft: '+=17px'
-    }, 100);
+    if (currentSentence.length === letterIndex) {
+      $('#yellow-block').animate({marginLeft: 17});
+    } else {
+      // move yellow block to highlight current letter
+      $('#yellow-block').animate({
+        marginLeft: '+=17px'
+      }, 100);
+    }
     // move to the next letter or sentence
     indexCounter();
   });
@@ -109,9 +117,10 @@ if (sentenceIndex < sentences.length) {
   $('#yellow-block').empty();
 }
 
-$('button').click(function() {
+// button click listener for play again button at the end of the game
+$('button').click(function () {
   resetGame();
-}
+});
 
   //timer
 // let sec = 0;
